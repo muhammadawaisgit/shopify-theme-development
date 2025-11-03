@@ -1,0 +1,126 @@
+{% comment %}
+  Product Tabs Section
+  - Dynamic tabs: Description, Shipping Info, Reviews
+  - Merchants can toggle visibility and edit content in theme settings
+{% endcomment %}
+
+<div class="product-tabs">
+  <ul class="tab-nav">
+    {% if section.settings.show_description %}
+      <li class="tab-link active" data-tab="tab-description">{{ section.settings.description_title }}</li>
+    {% endif %}
+    {% if section.settings.show_shipping %}
+      <li class="tab-link" data-tab="tab-shipping">{{ section.settings.shipping_title }}</li>
+    {% endif %}
+    {% if section.settings.show_reviews %}
+      <li class="tab-link" data-tab="tab-reviews">{{ section.settings.reviews_title }}</li>
+    {% endif %}
+  </ul>
+
+  <div class="tab-content">
+    {% if section.settings.show_description %}
+      <div id="tab-description" class="tab-pane active">
+        {{ product.description }}
+      </div>
+    {% endif %}
+
+    {% if section.settings.show_shipping %}
+      <div id="tab-shipping" class="tab-pane">
+        {{ section.settings.shipping_content }}
+      </div>
+    {% endif %}
+
+    {% if section.settings.show_reviews %}
+      <div id="tab-reviews" class="tab-pane">
+        <!-- Example: Integrate with Shopify Product Reviews app -->
+        {% if product.metafields.custom.spr_reviews %}
+          {{ product.metafields.custom.spr_reviews | metafield_tag }}
+        {% else %}
+          <p>No reviews yet.</p>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<style>
+  .product-tabs { margin-top: 2rem; }
+  .tab-nav { display: flex; gap: 1rem; cursor: pointer; list-style: none; padding: 0; }
+  .tab-link { padding: 0.5rem 1rem; border: 1px solid #ddd; }
+  .tab-link.active { background: #000; color: #fff; }
+  .tab-pane { display: none; padding: 1rem; border: 1px solid #ddd; border-top: none; }
+  .tab-pane.active { display: block; }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const tabs = document.querySelectorAll(".tab-link");
+    const panes = document.querySelectorAll(".tab-pane");
+
+    tabs.forEach(tab => {
+      tab.addEventListener("click", function() {
+        tabs.forEach(t => t.classList.remove("active"));
+        panes.forEach(p => p.classList.remove("active"));
+
+        this.classList.add("active");
+        document.getElementById(this.dataset.tab).classList.add("active");
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Product Tabs",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show Description Tab",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "description_title",
+      "label": "Description Tab Title",
+      "default": "Description"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shipping",
+      "label": "Show Shipping Tab",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "shipping_title",
+      "label": "Shipping Tab Title",
+      "default": "Shipping Info"
+    },
+    {
+      "type": "richtext",
+      "id": "shipping_content",
+      "label": "Shipping Content",
+      "default": "<p>Enter your shipping information here.</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_reviews",
+      "label": "Show Reviews Tab",
+      "default": true
+    },
+    {
+      "type": "richtext",
+      "id": "reviews_title",
+      "label": "Reviews Tab Title",
+      "default": "<p>Reviews</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Tabs",
+      "category": "Product"
+    }
+  ]
+}
+{% endschema %}

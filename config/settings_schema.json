@@ -2282,6 +2282,83 @@
           }
         ],
         "default": "equal-width-buttons"
+      },
+    ]
+  },
+  // Custom Product Badge Settings Schema
+  {
+    "name": "Product Badge Settings",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "badge_enable_on_product_items",
+        "label": "Badge Enable on Product Items"
+      },
+      {
+        "type": "number",
+        "id": "badge_low_stock_threshold",
+        "label": "Low stock threshold",
+        "default": 5
+      },
+      {
+        "type": "text",
+        "id": "badge_new_label",
+        "label": "New Arrival label",
+        "default": "New Arrival"
+      },
+      {
+        "type": "color",
+        "id": "badge_new_color",
+        "label": "New Arrival badge color",
+        "default": "#4CAF50"
+      },
+      {
+        "type": "text",
+        "id": "badge_bestseller_label",
+        "label": "Bestseller label",
+        "default": "Bestseller"
+      },
+      {
+        "type": "color",
+        "id": "badge_bestseller_color",
+        "label": "Bestseller badge color",
+        "default": "#FF9800"
+      },
+      {
+        "type": "text",
+        "id": "badge_low_stock_label",
+        "label": "Low Stock label",
+        "default": "Low Stock"
+      },
+      {
+        "type": "color",
+        "id": "badge_low_stock_color",
+        "label": "Low Stock badge color",
+        "default": "#F44336"
+      },
+      {
+        "type": "select",
+        "id": "product_badge_position",
+        "label": "Badge position",
+        "default": "top-left",
+        "options": [
+          {
+            "value": "top-left",
+            "label": "Top Left"
+          },
+          {
+            "value": "top-right",
+            "label": "Top Right"
+          },
+          {
+            "value": "bottom-left",
+            "label": "Bottom Left"
+          },
+          {
+            "value": "bottom-right",
+            "label": "Bottom Right"
+          }
+        ]
       }
     ]
   }

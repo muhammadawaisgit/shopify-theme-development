@@ -1,5 +1,3 @@
-
-
 {% assign block_settings = block.settings %}
 
 {%- if block_settings.zoom -%}
@@ -288,10 +286,14 @@
       media-gallery--extend
     {% endif %}
   "
-  style="{% render 'spacing-style', settings: block_settings %} --thumbnail-width: {{ block_settings.thumbnail_width }}px; --media-radius: {{ block_settings.media_radius }}px;{% if block_settings.icons_style contains 'large' %} --slideshow-icon-padding: 0px;{% endif %}--image-gap: {{ block_settings.image_gap }}px;{% unless block_settings.aspect_ratio == 'adapt' %} --gallery-aspect-ratio: {{ block_settings.aspect_ratio }};{% endunless %}"
+  style="position:relative;{% render 'spacing-style', settings: block_settings %} --thumbnail-width: {{ block_settings.thumbnail_width }}px; --media-radius: {{ block_settings.media_radius }}px;{% if block_settings.icons_style contains 'large' %} --slideshow-icon-padding: 0px;{% endif %}--image-gap: {{ block_settings.image_gap }}px;{% unless block_settings.aspect_ratio == 'adapt' %} --gallery-aspect-ratio: {{ block_settings.aspect_ratio }};{% endunless %}"
   data-presentation="{{ block_settings.media_presentation }}"
   {{ block.shopify_attributes }}
 >
+  {% if block_settings.product_badges %}
+    {% render 'custom-product-badges'%}
+  {% endif %}
+
   {% capture slides %}
     {% for media in sorted_media %}
       {% capture children %}
@@ -858,6 +860,15 @@
       "unit": "px",
       "default": 64,
       "visible_if": "{{ block.settings.media_presentation == 'carousel' and block.settings.slideshow_controls_style == 'thumbnails' }}"
+    },
+    {
+      "type": "header",
+      "content": "Product Badges"
+    },
+    {
+      "type": "checkbox",
+      "id": "product_badges",
+      "label": "Enable"
     },
     {
       "type": "header",

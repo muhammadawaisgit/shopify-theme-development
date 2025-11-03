@@ -1,0 +1,66 @@
+<style>
+  .custom-product-badges {
+    position: absolute;
+    z-index: 10;
+  }
+  .custom-product-badges.top-left {
+    top: 10px;
+    left: 10px;
+  }
+  .custom-product-badges.top-right {
+    top: 10px;
+    right: 10px;
+  }
+  .custom-product-badges.bottom-left {
+    bottom: 10px;
+    left: 10px;
+  }
+  .custom-product-badges.bottom-right {
+    bottom: 10px;
+    right: 10px;
+  }
+
+  .badge {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 4px;
+    margin: 2px;
+  }
+</style>
+<div class="custom-product-badges {{ settings.product_badge_position }}">
+
+  {% if product.tags contains 'new' %}
+    <span class="badge badge--new" style="background-color: {{ settings.badge_new_color }};">
+      {{ settings.badge_new_label }}
+    </span>
+  {% endif %}
+
+  {% if product.tags contains 'bestseller' %}
+    <span
+      class="badge badge--bestseller"
+      style="background-color: {{ settings.badge_bestseller_color }};"
+    >
+      {{ settings.badge_bestseller_label }}
+    </span>
+  {% endif %}
+
+  {% unless  product.tags contains 'bestseller' %}
+    <span class="badge badge--low-stock" style="background-color: {{ settings.badge_low_stock_color }};">
+        No Label
+      </span>
+  {% endunless %}
+
+  {% for variant in product.variants %}
+    {% if variant.inventory_quantity < settings.badge_low_stock_threshold %}
+      <span class="badge badge--low-stock" style="background-color: {{ settings.badge_low_stock_color }};">
+        {{ settings.badge_low_stock_label }}
+      </span>
+      {% break %}
+    {% endif %}
+  {% endfor %}
+</div>

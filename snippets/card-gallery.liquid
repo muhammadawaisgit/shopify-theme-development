@@ -109,6 +109,9 @@
   data-image-ratio="{{ block_settings.image_ratio }}"
   {{ block.shopify_attributes }}
 >
+  {% if settings.badge_enable_on_product_items == true %}
+    {% render 'custom-product-badges', product: product%}
+  {% endif %}
   {%- if all_media.size > 0 -%}
     {% liquid
       # Check if there are generic media that are not variant images
